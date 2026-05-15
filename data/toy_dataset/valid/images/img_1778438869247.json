@@ -1,0 +1,90 @@
+{
+  "version": "5.0.1",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          380.75392,
+          333.46439999999996
+        ],
+        [
+          646.6636800000001,
+          579.52728
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          251.87264000000002,
+          403.92432
+        ],
+        [
+          543.62688,
+          678.15072
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          727.13728,
+          55.82124000000001
+        ],
+        [
+          946.6393600000001,
+          220.7106
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          559.3152,
+          160.191
+        ],
+        [
+          754.89408,
+          316.68948
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          901.7043199999999,
+          248.69771999999998
+        ],
+        [
+          1109.65952,
+          526.1533199999999
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "img_1778438869247.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

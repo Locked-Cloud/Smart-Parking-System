@@ -1,0 +1,6 @@
+path: C:/Users/Ibrahim Ahmed/Desktop/embded system/data/toy_dataset
+train: C:/Users/Ibrahim Ahmed/Desktop/embded system/data/toy_dataset/train/images
+val: C:/Users/Ibrahim Ahmed/Desktop/embded system/data/toy_dataset/valid/images
+nc: 1
+names:
+- vehicle

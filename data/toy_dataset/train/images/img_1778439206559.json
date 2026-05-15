@@ -1,0 +1,126 @@
+{
+  "version": "6.2.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          612.03776,
+          239.07528000000002
+        ],
+        [
+          812.03136,
+          367.4412
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          724.52096,
+          68.31251999999999
+        ],
+        [
+          912.13824,
+          201.75516000000002
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          671.38304,
+          509.09075999999993
+        ],
+        [
+          866.112,
+          664.587
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          695.89056,
+          366.35724000000005
+        ],
+        [
+          921.32544,
+          552.0834
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          362.9376,
+          512.79264
+        ],
+        [
+          579.0400000000001,
+          670.3344
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          393.36134453781506,
+          99.49579831932772
+        ],
+        [
+          396.72268907563017,
+          268.4033613445378
+        ],
+        [
+          514.3697478991596,
+          249.07563025210084
+        ],
+        [
+          495.0420168067226,
+          82.68907563025209
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "img_1778439206559.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

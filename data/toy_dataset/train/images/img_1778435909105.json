@@ -1,0 +1,122 @@
+{
+  "version": "5.0.1",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          275.51807999999994,
+          219.8016
+        ],
+        [
+          546.08064,
+          382.82687999999996
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          314.64063999999996,
+          125.01
+        ],
+        [
+          569.56288,
+          266.41368
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          271.16736000000003,
+          368.766
+        ],
+        [
+          550.0448,
+          525.8988
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          439.24096,
+          0.35172000000000203
+        ],
+        [
+          607.50464,
+          68.79132
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          376.09728000000007,
+          43.315920000000006
+        ],
+        [
+          601.10592,
+          147.57192
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          236.61888,
+          534.96576
+        ],
+        [
+          569.6864,
+          689.3323200000001
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          349.89824,
+          2.021039999999998
+        ],
+        [
+          423.69023999999996,
+          47.133359999999996
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "img_1778435909105.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

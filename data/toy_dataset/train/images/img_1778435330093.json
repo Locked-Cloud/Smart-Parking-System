@@ -1,0 +1,36 @@
+{
+  "version": "6.2.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "vehicle",
+      "points": [
+        [
+          418.5714285714285,
+          165.04201680672267
+        ],
+        [
+          420.252100840336,
+          471.7647058823529
+        ],
+        [
+          1063.109243697479,
+          488.57142857142856
+        ],
+        [
+          1028.655462184874,
+          187.7310924369748
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "img_1778435330093.jpg",
+  "imageData": null,
+  "imageHeight": 720,
+  "imageWidth": 1280
+}

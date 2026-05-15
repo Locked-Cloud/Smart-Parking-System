@@ -1,0 +1,267 @@
+============================================================
+ OPTION B  -  Train a Custom Toy-Car Model  (summary)
+============================================================
+
+GOAL
+----
+Build a YOLOv11n model that is trained specifically on YOUR
+toy cars in YOUR parking layout, then deploy it to the Raspberry
+Pi 4 in NCNN format for fast inference.
+
+Higher accuracy than the baseline because the model sees exactly
+what it will encounter at runtime.
+
+
+TIME BUDGET
+-----------
+  Step 2  Capture photos          20 - 30 min
+  Step 3  Auto-pre-label           2 -  5 min
+  Step 4  Review labels           30 - 60 min   (most tedious)
+  Step 5  Generate data.yaml         5 sec
+  Step 6  Fine-tune (GTX 1650 Ti) 25 - 45 min
+  Step 7  Export to NCNN              1 min
+  TOTAL                          ~ 1.5 - 2.5 hours
+
+
+WHERE TO RUN EVERYTHING
+-----------------------
+On the PC (Windows), in this folder:
+   D:\Work and college\college\projects\embded system\PC_SCRIPTS
+
+Open CMD here, then run scripts with:    py -3.13 <script>.py
+
+
+=====================================================================
+ STEP 2 - CAPTURE TRAINING PHOTOS
+=====================================================================
+Command:
+   py -3.13 2_capture_training_data.py
+
+Webcam window opens. Captures save to data/raw_images/
+
+Controls in the window:
+   SPACE  capture one photo
+   A      toggle AUTO mode (1 photo every 1.5 s)
+   D      delete last captured photo
+   Q      quit
+
+Coverage to aim for (~300 photos total):
+   * Every toy car you own, individually
+   * Multiple cars together (2, 3, 4)
+   * Cars INSIDE parking spots
+   * Cars OUTSIDE parking spots (on the road area)
+   * Cars half-in / half-out of spots
+   * Empty parking lot  (at least 30 photos with no cars)
+   * Different rotations / angles of cars
+   * Different lighting (room light on, off, sunny, evening)
+   * Some photos with distractors (your hand, a coin, etc.)
+   * From the SAME camera angle / height you'll use on RPi4
+
+Targets:
+   minimum     = 150 photos
+   recommended = 300 photos
+   excellent   = 500 photos
+
+Practical tips:
+   * Mount the camera on a tripod or stand. Don't hand-hold.
+   * Build the final parking layout BEFORE capturing.
+   * Use AUTO mode + slowly slide cars around for ~3 minutes
+     (gives ~120 photos with almost no effort).
+   * Press D immediately if a photo is blurry / has you in it.
+
+
+=====================================================================
+ STEP 3 - AUTO PRE-LABEL
+=====================================================================
+Command:
+   py -3.13 3_auto_label.py
+
+What it does:
+   * Loads YOLOv8s (the "small" COCO model, ~22 MB).
+   * Runs detection on every photo at low confidence (0.20).
+   * Maps detected {car, motorcycle, bus, truck} -> class 0 (vehicle).
+   * Splits photos 85% train / 15% valid.
+   * Writes YOLO .txt label files next to each image.
+
+Output:
+   data/toy_dataset/
+      train/images/   train/labels/
+      valid/images/   valid/labels/
+
+Watch the console output. If it says
+   "Images with at least 1 detection : X / 300"
+and X is less than ~50% of total, your toy cars look unusual to
+COCO. That's fine - you'll just do more manual work in Step 4.
+
+
+=====================================================================
+ STEP 4 - REVIEW & CORRECT LABELS  (labelImg)   <-- most tedious
+=====================================================================
+Command:
+   py -3.13 4_review_labels.py
+
+This opens labelImg twice (train, then valid).
+
+FIRST-TIME labelImg setup (do this once):
+   1. Left sidebar -> format dropdown -> select  YOLO   (NOT Pascal VOC).
+   2. Menu  View -> Auto Save Mode  (so you don't lose work).
+   3. Menu  View -> Auto Use Default Label  -> set to "vehicle".
+
+Per-image workflow:
+   * Press  D  for next image.
+   * Box around something that's NOT a toy car?  click it, press Delete.
+   * Toy car with NO box?  press W, drag a tight box, label = vehicle.
+   * Box too loose?  click and drag corners to tighten.
+
+Speed tips:
+   * Most images need only 5-10 seconds of review.
+   * If auto-labels are already perfect, just hold D to fly past.
+   * Use Ctrl+D to duplicate the previous bbox when cars don't move.
+
+Common labelImg controls:
+   W         draw new bbox
+   D         next image
+   A         previous image
+   Del       delete selected bbox
+   Ctrl+S    save  (or just enable Auto Save)
+
+
+=====================================================================
+ STEP 5 - GENERATE data.yaml
+=====================================================================
+Command:
+   py -3.13 5_prepare_dataset.py
+
+Takes 1 second. Just creates data/data.yaml with absolute paths.
+
+If it says "0 labeled images in train" -> you forgot to save in
+labelImg. Go back to step 4.
+
+
+=====================================================================
+ STEP 6 - FINE-TUNE  YOLOv11n
+=====================================================================
+Command:
+   py -3.13 6_finetune_model.py
+
+Two-stage training (NVIDIA GPU is auto-detected and used):
+
+  STAGE 1  -  20 epochs, ~5 min
+     * Backbone frozen, head only trains.
+     * Prevents overfitting on the small dataset.
+
+  STAGE 2  -  80 epochs, ~20-35 min
+     * Full unfreeze, lower LR (0.0005), cosine schedule.
+     * Strong augmentation: rotation, color jitter, mosaic, mixup.
+     * Augmentation is critical for small datasets.
+
+Input size = 256 (matches the RPi4 deployment size).
+
+Live console shows:
+   Epoch    box_loss   cls_loss   dfl_loss   mAP50
+   10/80    1.21       0.42       1.05       0.78
+   20/80    0.98       0.31       0.92       0.86
+   ...
+
+Final mAP guide:
+   0.95 +        excellent, model nails it
+   0.85 - 0.95   good, production-ready
+   0.70 - 0.85   ok, but capture more varied photos
+   < 0.70        need more / better labeled data
+
+If you see CUDA out-of-memory:
+   Open 6_finetune_model.py and change BATCH_SIZE = 16 to 8 or 4.
+
+Outputs in:
+   runs/parking/stage2_full/weights/best.pt    <-- your model
+   runs/parking/stage2_full/results.png        <-- loss curves
+   runs/parking/stage2_full/val_batch0_pred.jpg<-- predictions on
+                                                    validation images
+                                                    (LOOK AT THIS!)
+
+
+=====================================================================
+ STEP 7 - EXPORT TO NCNN
+=====================================================================
+Command:
+   py -3.13 7_export_model.py
+
+Takes ~1 minute. Exports best.pt -> NCNN at 256x256 and copies
+the result automatically to:
+
+   RPI4_SCRIPTS/models/yolo11n_ncnn_model/
+
+After this, the RPI4_SCRIPTS folder is READY to flash to USB
+and copy to the Raspberry Pi.
+
+
+=====================================================================
+ STEP 8 - SANITY CHECK ON PC  (recommended)
+=====================================================================
+Command:
+   py -3.13 8_test_model_pc.py
+or for a raw detection-only view:
+   py -3.13 test_detection_only.py
+
+Place toy cars in front of the camera. You should see:
+   * Tight green boxes on every toy car.
+   * Confidence > 0.7 on most boxes.
+   * No boxes on hands, mouse, keyboard, etc.
+
+If accuracy is poor, DON'T deploy yet:
+   * Add more photos of the failing cases (step 2).
+   * Re-run steps 3 -> 7.
+
+
+=====================================================================
+ ITERATING LATER (adding new toy cars / new layout)
+=====================================================================
+1. py -3.13 2_capture_training_data.py
+   -> appends to data/raw_images/, doesn't delete old photos.
+2. py -3.13 3_auto_label.py
+   -> rebuilds train/valid splits, re-labels everything.
+3. py -3.13 4_review_labels.py
+   -> only review the new images (old labels are kept).
+4. Continue 5 -> 7.
+
+After the first time, the iteration loop is ~30 minutes total.
+
+
+=====================================================================
+ COMMON PITFALLS
+=====================================================================
+   * All photos taken from same angle           -> change height,
+                                                    re-aim slightly.
+   * All photos in same lighting                -> turn lights on/off,
+                                                    different times.
+   * No empty-lot photos                        -> capture at least 30.
+   * Inconsistent labeling                      -> pick a rule and
+                                                    stick to it.
+   * Trained at wrong imgsz                     -> step 6 must say
+                                                    imgsz=256 to match
+                                                    step 7 export and
+                                                    RPi4 deployment.
+
+
+=====================================================================
+ DEPLOYMENT TO RPi4 AFTER OPTION B
+=====================================================================
+1. Copy the updated  RPI4_SCRIPTS/  folder to a USB stick.
+2. On the Pi:
+      cp -r /media/$USER/<USB>/RPI4_SCRIPTS ~/parking
+      cd ~/parking
+      source parking_env/bin/activate
+
+3. (Optional) Test raw detection with no parking logic:
+      python3 test_detection_only.py
+
+4. Define parking slots once:
+      python3 annotate_slots.py
+
+5. Run the full system:
+      python3 parking_system.py
+
+
+============================================================
+ END OF GUIDE
+============================================================
