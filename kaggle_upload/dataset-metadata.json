@@ -1,0 +1,21 @@
+{
+  "title": "Toy Car Parking Detection - YOLOv8 Dataset",
+  "id": "INSERT_YOUR_KAGGLE_USERNAME/toy-car-parking-detection",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0"
+    }
+  ],
+  "keywords": [
+    "object detection",
+    "yolo",
+    "yolov8",
+    "toy cars",
+    "parking detection",
+    "embedded systems",
+    "raspberry pi",
+    "computer vision",
+    "ncnn",
+    "edge ai"
+  ]
+}

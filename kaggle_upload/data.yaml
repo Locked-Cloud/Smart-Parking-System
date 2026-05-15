@@ -1,0 +1,11 @@
+# Toy Car Parking Detection Dataset
+# Format: YOLOv8 / Ultralytics
+# Use relative paths so this works on any machine / Kaggle notebook
+
+path: .
+train: train/images
+val: valid/images
+
+nc: 1
+names:
+  - vehicle
